@@ -1,13 +1,11 @@
 import React from 'react';
 
 function App() {
-    return (
-        <div>
-            <header>
-                div
-            </header>
-        </div>
-    );
+  return (
+    <div>
+      <header>div</header>
+    </div>
+  );
 }
 
 export default App;
