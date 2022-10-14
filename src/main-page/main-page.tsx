@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ContentContainer, ItemsContainer, MainPageContainer, Title } from './main-page.styles';
-import { Box, Button, CircularProgress, Stack } from '@mui/material';
+import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material';
 import { getPokemonsRequest, useGetPokemonsQuery } from '../app/services/pokemon';
 import Item from './item/item';
 import { pokemonsSelector } from '../app/slices/pokemon';
@@ -34,7 +34,9 @@ function MainPage() {
 
   return (
     <MainPageContainer>
-      <Title>Pokedex</Title>
+      <Typography variant='h2' component='div' align={'center'} gutterBottom>
+        Pokedex
+      </Typography>
       <ContentContainer>
         <Stack spacing={2}>
           <ItemsContainer>
