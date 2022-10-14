@@ -1,45 +1,54 @@
-import React, { useState } from 'react';
-import { ChoosedItem, ContentContainer, ItemsContainer, MainPageContainer, Title } from './main-page.styles';
-import { Button, CardActions, CardContent, Typography } from '@mui/material';
-import { useGetPokemonsQuery } from '../app/services/pokemon';
+import React, { useEffect, useState } from 'react';
+import { ContentContainer, ItemsContainer, MainPageContainer, Title } from './main-page.styles';
+import { Box, Button, CircularProgress, Stack } from '@mui/material';
+import { getPokemonsRequest, useGetPokemonsQuery } from '../app/services/pokemon';
 import Item from './item/item';
-import { FullPokemon } from '../app/types/full-pokemon';
-import { activePokemonSelector, setActivePokemon } from '../app/slices/pokemon';
-import { useDispatch, useSelector } from 'react-redux';
+import { pokemonsSelector } from '../app/slices/pokemon';
+import { useSelector } from 'react-redux';
+import { Pokemon } from '../app/types/pokemon';
+import ChoosedItem from './choosed-item';
 
 function MainPage() {
-  const { data } = useGetPokemonsQuery();
-  const pokemon = useSelector(activePokemonSelector)
+  const pokemons = useSelector(pokemonsSelector);
+  const limit = 12;
+  const [offset, setOffset] = useState(0);
+  const page: getPokemonsRequest = {
+    limit: 12, offset: offset,
+  };
+  const { data, isLoading, status } = useGetPokemonsQuery(page);
+  console.log(status);
+
+  function loadMoreItems() {
+    setOffset(prevState => prevState + limit);
+  }
+
+  const [sizebleItemsList, setSizebleItemsList] = useState([] as Pokemon[]);
+
+  const addItem = (item: Pokemon[]) => {
+    setSizebleItemsList(prevState => [...prevState, ...item]);
+  };
+  useEffect(() => {
+    data && addItem(data);
+  }, [data]);
 
 
   return (
     <MainPageContainer>
       <Title>Pokedex</Title>
       <ContentContainer>
-        <ItemsContainer>
-          {data?.map(pokemon => {
-            return (
-              <Item key={pokemon.name} pokemonName={pokemon.name}/>
-            );
-          })}</ItemsContainer>
-        <ChoosedItem>
-          <CardContent>
-            <Typography sx={{ fontSize: 14 }} color='text.secondary' gutterBottom>
-              {pokemon?.name}
-            </Typography>
-            <Typography sx={{ mb: 1.5 }} color='text.secondary'>
-              adjective
-            </Typography>
-            <Typography variant='body2'>
-              well meaning and kindly.
-              <br />
-              {'"a benevolent smile"'}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button size='small'>Learn More</Button>
-          </CardActions>
-        </ChoosedItem>
+        <Stack spacing={2}>
+          <ItemsContainer>
+            {sizebleItemsList?.map(pokemon => {
+              return (
+                <Item key={pokemon.id} pokemonName={pokemon.name} />
+              );
+            })}</ItemsContainer>
+          {status == 'fulfilled' ? (<Button variant='contained' onClick={loadMoreItems}>Load more</Button>) :
+            (<Box sx={{ display: 'flex' }}>
+              <CircularProgress />
+            </Box>)}
+        </Stack>
+        <ChoosedItem />
       </ContentContainer>
     </MainPageContainer>
   );

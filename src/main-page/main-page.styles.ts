@@ -20,12 +20,13 @@ export const ContentContainer = styled.div`
   position: relative;
   justify-content: space-evenly;
 `;
-export const ChoosedItem = styled(Card)`
+export const ChoosedItemContainer = styled(Card)`
   position: sticky;
   left: 0;
-  top: 20%;
-  max-height: 475px;
-  min-width: 300px;
+  top: 10%;
+  height: min-content;
+  min-width: 250px;
+  overflow: scroll !important;
 `;
 export const Title = styled.h1`
   text-align: center;

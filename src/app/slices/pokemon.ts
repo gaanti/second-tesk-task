@@ -31,6 +31,8 @@ export const pokemonSlice = createSlice({
 
 // @ts-ignore
 export const activePokemonSelector = (state: RootState) => state.pokemon.active_pokemon;
+// @ts-ignore
+export const pokemonsSelector = (state: RootState) => state.pokemon.pokemons;
 export const { setActivePokemon} = pokemonSlice.actions;
 
 export default pokemonSlice.reducer;

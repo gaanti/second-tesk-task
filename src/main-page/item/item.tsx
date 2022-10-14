@@ -1,47 +1,44 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Card, CardContent, Typography } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Box, Card, CardContent, LinearProgress, Typography } from '@mui/material';
 import { useGetPokemonByNameQuery } from '../../app/services/pokemon';
 import { PokemonImage } from '../main-page.styles';
 import ItemTag from './item-tag';
-import { FullPokemon } from '../../app/types/full-pokemon';
 import { useDispatch, useSelector } from 'react-redux';
 import { activePokemonSelector, setActivePokemon } from '../../app/slices/pokemon';
 
-const Item = (props: { pokemonName: string}) => {
-  const dispatch = useDispatch()
-  const skip = useRef(false);
-  const pokemon = useSelector(activePokemonSelector)
-  const { data } = useGetPokemonByNameQuery(props.pokemonName);
+const Item = (props: { pokemonName: string }) => {
+  const dispatch = useDispatch();
+  const pokemon = useSelector(activePokemonSelector);
+  const { data, isLoading } = useGetPokemonByNameQuery(props.pokemonName);
   useEffect(() => {
-    if (!pokemon && data) {
+    if (data) {
+      if (!pokemon) {
         dispatch(setActivePokemon(data));
+      }
     }
   }, [data]);
   if (data) {
     return (
-      <Card sx={{ maxWidth: 275 }} onClick={() => dispatch(setActivePokemon(data))}>
+      <Card sx={{ maxWidth: 275, cursor: 'pointer' }} onClick={() => dispatch(setActivePokemon(data))}>
         <CardContent>
           <PokemonImage src={data?.sprites.front_default} alt='' />
           <Typography variant='h5' component='div'>
-            {data && data.name}
+            {data.name}
           </Typography>
           <div>
-            {data?.types.map((type) => {
+            {data.types.map((type) => {
               return (
                 <ItemTag type={type.type.name} />
               );
             })}
           </div>
-          <Typography variant='body2'>
-            well meaning and kindly.
-            <br />
-            {'"a benevolent smile"'}
-          </Typography>
         </CardContent>
       </Card>
     );
-  }
-  return <div/>;
-}
+  } else if (isLoading) return <Box sx={{ width: '100%' }}>
+    <LinearProgress />
+  </Box>;
+  return <div />;
+};
 
 export default React.memo(Item);

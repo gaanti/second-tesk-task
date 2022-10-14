@@ -9,7 +9,8 @@ export interface FullPokemon {
   order: number,
   past_types: [],
   'types': types[],
-  'stats': stats[],
+  'stats': any[],
+  // 'stats': stats[],
   'sprites': sprites
   species: species
   moves: moves[]

@@ -18,16 +18,20 @@ export interface getPokemonsResponse {
     : Pokemon[];
 }
 
+export interface getPokemonsRequest {
+  limit: number;
+  offset: number;
 
+}
 export interface getPokemonTypesRequest {
   limit?: number;
 }
 
 export const pokemonApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getPokemons: builder.query<Pokemon[], number | void>({
-      query: (queryArg: number | void) => ({
-        url: `/pokemon${queryArg != undefined ? `/?limit=${queryArg}` : ''}`,
+    getPokemons: builder.query<Pokemon[], getPokemonsRequest>({
+      query: (queryArg: getPokemonsRequest) => ({
+        url: `/pokemon/${queryArg != undefined ? `?limit=${queryArg.limit}&offset=${queryArg.offset}` : ''}`,
         method: 'GET',
       }),
       transformResponse: (response: { results: Pokemon[] }) => response.results,
