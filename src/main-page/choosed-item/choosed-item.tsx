@@ -1,9 +1,9 @@
 import React from 'react';
 import { CardContent, Typography } from '@mui/material';
-import { ChoosedItemContainer, PokemonImage } from './main-page.styles';
+import { ChoosedItemContainer, PokemonImage } from '../main-page.styles';
 import ItemStats from './item-stats';
 import { useSelector } from 'react-redux';
-import { activePokemonSelector } from '../app/slices/pokemon';
+import { activePokemonSelector } from '../../app/slices/pokemon';
 
 function ChoosedItem() {
   const activePokemon = useSelector(activePokemonSelector);
@@ -20,4 +20,4 @@ function ChoosedItem() {
   );
 }
 
-export default ChoosedItem;
+export default React.memo(ChoosedItem);

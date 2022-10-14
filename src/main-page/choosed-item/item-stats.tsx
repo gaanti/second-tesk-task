@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useSelector } from 'react-redux';
-import { activePokemonSelector } from '../app/slices/pokemon';
+import { activePokemonSelector } from '../../app/slices/pokemon';
 
 
 export default function ItemStats() {
