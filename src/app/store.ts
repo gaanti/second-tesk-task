@@ -1,11 +1,11 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import rootReducer from './rootReducer';
-import { api } from './@api/api';
+import { pokemonApi } from './services/pokemon';
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(api.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(pokemonApi.middleware),
 });
 
 type AppDispatch = typeof store.dispatch;

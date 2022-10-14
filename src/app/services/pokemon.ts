@@ -1,28 +1,46 @@
 import { api } from '../@api/api';
 import { Pokemon } from '../types/pokemon';
 import { PokemonTypes } from '../types/pokemonTypes';
+import { FullPokemon } from '../types/full-pokemon';
 
-export interface getPokemonsRequest {
-  limit?: number;
+
+export interface getPokemonsResponse {
+  count
+    :
+    number;
+  next
+    :
+    string;
+  previous
+    :
+    any;
+  results
+    : Pokemon[];
 }
-export interface getPokemonRequest {
-  id: number;
-}
+
+
 export interface getPokemonTypesRequest {
   limit?: number;
 }
 
-export const pizzaApi = api.injectEndpoints({
+export const pokemonApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getPokemons: builder.query<Pokemon[], getPokemonsRequest>({
+    getPokemons: builder.query<Pokemon[], number | void>({
       // It is possible to specify limit of items with ?limit={{value}}
-      query: (queryArg: getPokemonsRequest) => ({
-        url: `/pokemon${queryArg && `?limit=${queryArg}`}`,
+      query: (queryArg: number | void) => ({
+        url: `/pokemon${queryArg != undefined ? `/?limit=${queryArg}` : ''}`,
+        method: 'GET',
+      }),
+      transformResponse: (response: { results: Pokemon[] }) => response.results,
+    }),
+    getPokemonById: builder.query<FullPokemon, number>({
+      query: (queryArg: number) => ({
+        url: `/pokemon/${queryArg}`,
         method: 'GET',
       }),
     }),
-    getPokemonById: builder.query<Pokemon, getPokemonRequest>({
-      query: (queryArg: getPokemonRequest) => ({
+    getPokemonByName: builder.query<FullPokemon, string>({
+      query: (queryArg: string) => ({
         url: `/pokemon/${queryArg}`,
         method: 'GET',
       }),
@@ -36,3 +54,5 @@ export const pizzaApi = api.injectEndpoints({
     }),
   }),
 });
+
+export const { useGetPokemonsQuery, useGetPokemonByIdQuery, useGetPokemonByNameQuery } = pokemonApi;

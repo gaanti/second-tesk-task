@@ -7,6 +7,7 @@ export interface Pokemon {
   height: number;
   weight: number;
 }
+
 interface stat {
   base_stat: number;
   effort: number;
@@ -15,6 +16,7 @@ interface stat {
     url: string;
   };
 }
+
 interface type {
   slot: number;
   type: {
@@ -22,6 +24,7 @@ interface type {
     url: string;
   };
 }
+
 interface move {
   move: {
     name: string;
