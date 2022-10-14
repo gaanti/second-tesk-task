@@ -23,6 +23,7 @@ export interface getPokemonsRequest {
   offset: number;
 
 }
+
 export interface getPokemonTypesRequest {
   limit?: number;
 }

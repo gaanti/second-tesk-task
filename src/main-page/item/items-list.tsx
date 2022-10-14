@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { ItemsContainer } from '../main-page.styles';
 import Item from './item';
 import { Box, Button, CircularProgress, Stack } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { pokemonsSelector } from '../../app/slices/pokemon';
 import { getPokemonsRequest, useGetPokemonsQuery } from '../../app/services/pokemon';
 import { Pokemon } from '../../app/types/pokemon';
 
