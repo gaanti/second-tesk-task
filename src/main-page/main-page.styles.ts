@@ -12,12 +12,25 @@ export const ItemsContainer = styled.div`
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 10px;
   justify-content: flex-start;
+  @media (max-width: 835px){
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 744px){
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 666px){
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 580px){
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 export const ContentContainer = styled.div`
   display: flex;
   flex-direction: row;
   padding: 20px;
   position: relative;
+  gap: 15px;
   justify-content: space-evenly;
 `;
 export const ChoosedItemContainer = styled(Card)`
@@ -27,6 +40,18 @@ export const ChoosedItemContainer = styled(Card)`
   height: min-content;
   min-width: 250px;
   overflow: scroll !important;
+  @media (max-width: 835px){
+    min-width: 350px;
+  }
+  @media (max-width: 744px){
+    min-width: 200px;
+  }
+  @media (max-width: 666px){
+    min-width: 200px;
+  }
+  @media (max-width: 580px){
+    min-width: 150px;
+  }
 `;
 export const Title = styled.h1`
   text-align: center;
