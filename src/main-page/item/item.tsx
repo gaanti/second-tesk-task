@@ -1,41 +1,47 @@
-import React from 'react';
-import { Button, Card, CardActions, CardContent, Typography } from '@mui/material';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Card, CardContent, Typography } from '@mui/material';
 import { useGetPokemonByNameQuery } from '../../app/services/pokemon';
-import { PokemonTypeTag } from '../main-page.styles';
+import { PokemonImage } from '../main-page.styles';
+import ItemTag from './item-tag';
+import { FullPokemon } from '../../app/types/full-pokemon';
+import { useDispatch, useSelector } from 'react-redux';
+import { activePokemonSelector, setActivePokemon } from '../../app/slices/pokemon';
 
-function Item(props: { pokemonName: string }) {
+const Item = (props: { pokemonName: string}) => {
+  const dispatch = useDispatch()
+  const skip = useRef(false);
+  const pokemon = useSelector(activePokemonSelector)
   const { data } = useGetPokemonByNameQuery(props.pokemonName);
-
-  return (
-    <Card sx={{ maxWidth: 275 }}>
-      <CardContent>{/*
-              <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                {pokemon.name}
-              </Typography>*/}
-        <Typography variant='h5' component='div'>
-          {data && data.name}
-        </Typography>
-        <div>
-          {data?.types.map((type) => {
-            console.log(type);
-            return (
-              <PokemonTypeTag>
-                {type.type.name}
-              </PokemonTypeTag>
-            );
-          })}
-        </div>
-        <Typography variant='body2'>
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size='small'>Learn More</Button>
-      </CardActions>
-    </Card>
-  );
+  useEffect(() => {
+    if (!pokemon && data) {
+        dispatch(setActivePokemon(data));
+    }
+  }, [data]);
+  if (data) {
+    return (
+      <Card sx={{ maxWidth: 275 }} onClick={() => dispatch(setActivePokemon(data))}>
+        <CardContent>
+          <PokemonImage src={data?.sprites.front_default} alt='' />
+          <Typography variant='h5' component='div'>
+            {data && data.name}
+          </Typography>
+          <div>
+            {data?.types.map((type) => {
+              return (
+                <ItemTag type={type.type.name} />
+              );
+            })}
+          </div>
+          <Typography variant='body2'>
+            well meaning and kindly.
+            <br />
+            {'"a benevolent smile"'}
+          </Typography>
+        </CardContent>
+      </Card>
+    );
+  }
+  return <div/>;
 }
 
-export default Item;
+export default React.memo(Item);

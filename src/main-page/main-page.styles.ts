@@ -32,7 +32,10 @@ export const Title = styled.h1`
 `;
 export const PokemonTypeTag = styled.span`
   margin: 0 2px;
-  background-color: #fff9c3;
   padding: 0 4px;
   border-radius: 4px;
+  background-color: #fff9c3
+`;
+export const PokemonImage = styled.img`
+    width: 100%;
 `;

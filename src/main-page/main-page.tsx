@@ -1,36 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ChoosedItem, ContentContainer, ItemsContainer, MainPageContainer, Title } from './main-page.styles';
-import { Box, Button, CardActions, CardContent, Typography } from '@mui/material';
+import { Button, CardActions, CardContent, Typography } from '@mui/material';
 import { useGetPokemonsQuery } from '../app/services/pokemon';
 import Item from './item/item';
+import { FullPokemon } from '../app/types/full-pokemon';
+import { activePokemonSelector, setActivePokemon } from '../app/slices/pokemon';
+import { useDispatch, useSelector } from 'react-redux';
 
 function MainPage() {
   const { data } = useGetPokemonsQuery();
+  const pokemon = useSelector(activePokemonSelector)
 
-  const bull = (
-    <Box
-      component='span'
-      sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-    >
-      •
-    </Box>
-  );
+
   return (
     <MainPageContainer>
       <Title>Pokedex</Title>
       <ContentContainer>
-        <ItemsContainer>{data?.map(pokemon => {
-          return (
-            <Item pokemonName={pokemon.name} />
-          );
-        })}</ItemsContainer>
+        <ItemsContainer>
+          {data?.map(pokemon => {
+            return (
+              <Item key={pokemon.name} pokemonName={pokemon.name}/>
+            );
+          })}</ItemsContainer>
         <ChoosedItem>
           <CardContent>
             <Typography sx={{ fontSize: 14 }} color='text.secondary' gutterBottom>
-              Word of the Day
-            </Typography>
-            <Typography variant='h5' component='div'>
-              be{bull}nev{bull}o{bull}lent
+              {pokemon?.name}
             </Typography>
             <Typography sx={{ mb: 1.5 }} color='text.secondary'>
               adjective

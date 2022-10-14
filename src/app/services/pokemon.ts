@@ -26,7 +26,6 @@ export interface getPokemonTypesRequest {
 export const pokemonApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getPokemons: builder.query<Pokemon[], number | void>({
-      // It is possible to specify limit of items with ?limit={{value}}
       query: (queryArg: number | void) => ({
         url: `/pokemon${queryArg != undefined ? `/?limit=${queryArg}` : ''}`,
         method: 'GET',
@@ -46,7 +45,6 @@ export const pokemonApi = api.injectEndpoints({
       }),
     }),
     getPokemonTypes: builder.query<PokemonTypes, getPokemonTypesRequest>({
-      // It is possible to specify limit of items with ?limit={{value}}
       query: (queryArg: getPokemonTypesRequest) => ({
         url: `/type${queryArg && `?limit=${queryArg}`}`,
         method: 'GET',
@@ -55,4 +53,4 @@ export const pokemonApi = api.injectEndpoints({
   }),
 });
 
-export const { useGetPokemonsQuery, useGetPokemonByIdQuery, useGetPokemonByNameQuery } = pokemonApi;
+export const { useGetPokemonsQuery, useGetPokemonByNameQuery } = pokemonApi;
